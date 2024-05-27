@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.blog.application.entity.Category;
@@ -16,8 +18,6 @@ import com.blog.application.reposistry.CategoryReposistry;
 import com.blog.application.reposistry.PostReposistry;
 import com.blog.application.reposistry.UserReposistry;
 import com.blog.application.service.PostService;
-
-import lombok.experimental.PackagePrivate;
 @Service
 public class PostServiceImpl implements PostService {
 	
@@ -70,8 +70,9 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPost() {
-		return this.postReposistry.findAll().stream().map(s-> this.modelMapper.map(s, PostDto.class)).toList();
+	public List<PostDto> getAllPost(int pageNumber, int pageSize) {
+        Pageable page=PageRequest.of(pageNumber, pageSize);
+		return this.postReposistry.findAll(page).getContent().stream().map(s-> this.modelMapper.map(s, PostDto.class)).toList();
 	}
 
 	@Override

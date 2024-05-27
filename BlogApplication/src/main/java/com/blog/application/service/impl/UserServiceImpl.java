@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.blog.application.entity.User;
@@ -49,8 +52,10 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDto> getAllUsers() {
-		List<User> tempUserList=userReposistry.findAll();
+	public List<UserDto> getAllUsers(int pageNumber,int pageSize) {
+		Pageable p = PageRequest.of(pageNumber, pageSize);
+		Page<User> pagePost = userReposistry.findAll(p);
+		List<User> tempUserList = pagePost.getContent();
 		return tempUserList.stream().map(user-> modalMapper.map(user, UserDto.class)).toList();
 	}
 
