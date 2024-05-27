@@ -16,7 +16,7 @@ public interface PostService {
 	
 	Boolean deletePostById(int postId);
 	
-	PostResponceDto getAllPost(int pageNumber, int pageSize);
+	PostResponceDto getAllPost(int pageNumber, int pageSize,String sortBy,String sortingOrder);
 	
 	PostDto getPostById(int postId);
 	

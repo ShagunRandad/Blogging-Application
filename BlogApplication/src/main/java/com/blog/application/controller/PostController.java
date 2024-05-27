@@ -62,9 +62,12 @@ public class PostController {
 	@GetMapping("/getAllPosts")
 	public ResponseEntity<PostResponceDto> getAllPosts(
 	        @RequestParam(value = "pageNumber", defaultValue = "1", required = false) int pageNumber,
-	        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+	        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+	        @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+	        @RequestParam(value = "sortorder", defaultValue = "asc", required = false) String sortingOrder
+			) {
 
-	    return new ResponseEntity<>(this.postService.getAllPost(pageNumber, pageSize), HttpStatus.OK);
+	    return new ResponseEntity<>(this.postService.getAllPost(pageNumber, pageSize,sortBy,sortingOrder), HttpStatus.OK);
 	}
 
 	

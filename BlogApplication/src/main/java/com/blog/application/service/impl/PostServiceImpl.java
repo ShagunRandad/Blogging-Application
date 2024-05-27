@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.blog.application.entity.Category;
@@ -72,8 +73,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponceDto getAllPost(int pageNumber, int pageSize) {
-		Pageable page = PageRequest.of(pageNumber, pageSize);
+	public PostResponceDto getAllPost(int pageNumber, int pageSize,String sortBy,String sortingOrder) {
+		//We can take one more parameter from client so that if he wants to sort in asc or desc format
+		 Sort sort =sortingOrder.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+		
+		Pageable page = PageRequest.of(pageNumber, pageSize, sort);
 		org.springframework.data.domain.Page<Post> postPage=this.postReposistry.findAll(page);
 
 		List<PostDto> postDtoList = postPage.getContent().stream()
