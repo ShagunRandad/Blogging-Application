@@ -3,6 +3,7 @@ package com.blog.application.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.query.Page;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import com.blog.application.entity.Post;
 import com.blog.application.entity.User;
 import com.blog.application.exception.NoRecordPresent;
 import com.blog.application.payload.PostDto;
+import com.blog.application.payload.PostResponceDto;
 import com.blog.application.reposistry.CategoryReposistry;
 import com.blog.application.reposistry.PostReposistry;
 import com.blog.application.reposistry.UserReposistry;
@@ -34,7 +36,7 @@ public class PostServiceImpl implements PostService {
 	ModelMapper modelMapper;
 
 	@Override
-	public PostDto addNewPost(PostDto postDto,int categoryId,int userId) {
+	public PostDto addNewPost(PostDto postDto,int userId,int categoryId) {
 		
 		User user=userReposistry.findById(userId).orElseThrow(()-> new NoRecordPresent("No User Present of this id: "+userId));
 		Category category=categoryReposistry.findById(categoryId).orElseThrow(()-> new NoRecordPresent("No Category Present of this id: "+categoryId));
@@ -70,9 +72,22 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public List<PostDto> getAllPost(int pageNumber, int pageSize) {
-        Pageable page=PageRequest.of(pageNumber, pageSize);
-		return this.postReposistry.findAll(page).getContent().stream().map(s-> this.modelMapper.map(s, PostDto.class)).toList();
+	public PostResponceDto getAllPost(int pageNumber, int pageSize) {
+		Pageable page = PageRequest.of(pageNumber, pageSize);
+		org.springframework.data.domain.Page<Post> postPage=this.postReposistry.findAll(page);
+
+		List<PostDto> postDtoList = postPage.getContent().stream()
+		        .map(post -> this.modelMapper.map(post, PostDto.class))
+		        .toList();
+
+		PostResponceDto postResponseDto = new PostResponceDto();
+		postResponseDto.setContent(postDtoList);
+		postResponseDto.setPageNumber(postPage.getPageable().getPageNumber());
+		postResponseDto.setPageSize(postPage.getPageable().getPageSize());
+		postResponseDto.setTotalPages(postPage.getTotalPages());
+		postResponseDto.setTotalElements(postPage.getTotalElements());
+		postResponseDto.setLastPage(postPage.isLast());
+		return postResponseDto;
 	}
 
 	@Override

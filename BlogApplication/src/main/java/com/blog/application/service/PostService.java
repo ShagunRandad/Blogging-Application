@@ -4,19 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.blog.application.entity.Post;
 import com.blog.application.payload.PostDto;
+import com.blog.application.payload.PostResponceDto;
 
 @Service
 public interface PostService {
 	
-	PostDto addNewPost(PostDto postDto,int categoryId,int userId);
+	PostDto addNewPost(PostDto postDto,int userId,int categoryId);
 	
 	PostDto updatePost(PostDto postDto , int postId);
 	
 	Boolean deletePostById(int postId);
 	
-	List<PostDto> getAllPost(int pageNumber, int pageSize);
+	PostResponceDto getAllPost(int pageNumber, int pageSize);
 	
 	PostDto getPostById(int postId);
 	
