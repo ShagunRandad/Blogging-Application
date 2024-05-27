@@ -121,8 +121,8 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public List<PostDto> getPostByHashTeg(String hashtag) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.postReposistry.findByPostTitleContaining(hashtag).stream().map(s->
+	this.modelMapper.map(s, PostDto.class)).toList();
 	}
 
 	

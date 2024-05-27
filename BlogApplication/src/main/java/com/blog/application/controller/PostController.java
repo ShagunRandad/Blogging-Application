@@ -76,6 +76,11 @@ public class PostController {
 		return new ResponseEntity<PostDto>(this.postService.updatePost(postdto, id),HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/search/hashtag/{hashtag}")
+	public ResponseEntity<List<PostDto>> searchByHashtag(@PathVariable String hashtag){
+		return new ResponseEntity<List<PostDto>>(this.postService.getPostByHashTeg(hashtag),HttpStatus.OK);
+	}
+	
 	
 	
 	
