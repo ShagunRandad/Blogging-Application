@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class CategoryDto {
-	private int categoryId;
+	private int id;
 	   @NotEmpty(message = "category desc cant be empty")
 	      @Pattern(
-	          regexp = "^\\s*(\\w+\\s+){9,}\\w+\\s*$",
+	    		  regexp = "^\\s*(\\w+[\\s,]+){9,}\\w+\\s*$",
 	          message = "category desc must have at least 10 words"
 	      )
 	private String categorydesc;

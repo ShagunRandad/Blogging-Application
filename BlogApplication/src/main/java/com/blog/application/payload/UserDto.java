@@ -25,7 +25,7 @@ public class UserDto {
       private String email;
       @NotEmpty(message = "about cannot be empty")
       @Pattern(
-          regexp = "^\\s*(\\w+\\s+){9}\\w+\\s*$",
+    		  regexp = "^\\s*(\\w+[\\s,]+){9,}\\w+\\s*$",
           message = "about must have at least 10 words"
       )
       private String about;
