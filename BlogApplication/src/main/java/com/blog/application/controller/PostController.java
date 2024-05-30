@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.application.config.AppConstant;
 import com.blog.application.payload.PostDto;
 import com.blog.application.payload.PostResponceDto;
 import com.blog.application.service.PostService;
@@ -26,6 +26,7 @@ public class PostController {
 	
 	@Autowired
 	PostService postService;
+
 
 	
 	@PostMapping(value = "/save-post/user/{userId}/category/{CategoryId}")
@@ -61,10 +62,10 @@ public class PostController {
 	
 	@GetMapping("/getAllPosts")
 	public ResponseEntity<PostResponceDto> getAllPosts(
-	        @RequestParam(value = "pageNumber", defaultValue = "1", required = false) int pageNumber,
-	        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
-	        @RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-	        @RequestParam(value = "sortorder", defaultValue = "asc", required = false) String sortingOrder
+	        @RequestParam(value = "pageNumber", defaultValue =AppConstant.DEFAULT_PAGE_NUMBER, required = false) int pageNumber,
+	        @RequestParam(value = "pageSize", defaultValue = AppConstant.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+	        @RequestParam(value = "sortBy", defaultValue = AppConstant.DEFAULT_SORT_BY, required = false) String sortBy,
+	        @RequestParam(value = "sortorder", defaultValue = AppConstant.DEFAULT_SORTINF_ORDER, required = false) String sortingOrder
 			) {
 
 	    return new ResponseEntity<>(this.postService.getAllPost(pageNumber, pageSize,sortBy,sortingOrder), HttpStatus.OK);
