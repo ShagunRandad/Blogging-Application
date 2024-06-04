@@ -1,5 +1,7 @@
 package com.blog.application.payload;
 
+import java.io.Serializable;
+
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CategoryDto {
+public class CategoryDto  implements Serializable{
 	private int id;
 	   @NotEmpty(message = "category desc cant be empty")
 	      @Pattern(
